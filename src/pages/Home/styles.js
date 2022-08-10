@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { BsTrash } from "react-icons/bs";
 const Main = styled.main`
   width: 100vw;
   height: 100%;
@@ -73,6 +73,7 @@ const DivLista = styled.div`
     li {
       width: 95%;
       min-height: 48.73px;
+
       margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
@@ -87,20 +88,27 @@ const DivLista = styled.div`
       span {
         width: 50%;
         max-width: 150px;
-        height: 100%;
+        height: 20px;
         color: var(--Grey-1);
         font-size: 0.761rem;
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-around;
+        justify-content: flex-end;
+        gap: 5%;
         button {
-          background-color: transparent;
+          width: 20%;
+          border-radius: 6px;
+          background-color: var(--Grey-1);
           border: none;
           color: var(--Grey-1);
           height: 100%;
           display: flex;
           align-items: center;
+          justify-content: flex-end;
+          svg {
+            color: black;
+          }
           &:hover {
             color: var(--Grey-0);
           }

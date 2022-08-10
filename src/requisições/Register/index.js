@@ -1,8 +1,8 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../services/api";
 export default async function onRegister(data) {
-  const response = axios
-    .post("https://kenziehub.herokuapp.com/users", data)
+  const response = api
+    .post("/users", data)
     .then((response) => {
       const id = toast.loading("Aguarde...");
       if (response.statusText === "Created") {
@@ -16,7 +16,7 @@ export default async function onRegister(data) {
       }
       return response;
     })
-    .catch((error) =>
+    .catch(() =>
       toast.error("email ja cadastrado", {
         autoClose: 2000,
         hideProgressBar: false,

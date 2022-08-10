@@ -4,12 +4,9 @@ const Form = styled.form`
   padding: 10px;
   color: var(--Grey-0);
   box-shadow: 0px 3.20867px 32.0867px -8.02168px rgba(0, 0, 0, 0.25);
-  width: 70%;
+  width: clamp(18.5rem, 70%, 23.125rem);
   height: ${(props) => `${props.height}`};
-  min-width: 18.5rem;
-  max-width: 23.125rem;
   max-height: 650px;
-  min-height: 402.69px;
   display: flex;
   flex-direction: column;
   align-items: center;

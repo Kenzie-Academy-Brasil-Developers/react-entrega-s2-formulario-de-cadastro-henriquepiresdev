@@ -13,6 +13,11 @@ const DivUser = styled.div`
   div {
     width: 100%;
     max-width: 48.75rem;
+    @media (min-width: 768px) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     h2 {
       display: flex;
       line-height: 3;

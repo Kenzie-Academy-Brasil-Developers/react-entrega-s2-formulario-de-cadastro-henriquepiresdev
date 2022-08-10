@@ -5,12 +5,12 @@ import Container from "../../components/Container";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import Main from "./styles";
 import DivTitle from "../../components/DivTitle";
-import onRegister from "../../requisições/Register";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AnimatedPage from "../../components/AnimatePage";
-
+import { useContext } from "react";
+import { AuthContext } from "../../components/contexts/AuthContext";
 export default function Register({ history }) {
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome obrigatório"),
@@ -36,11 +36,7 @@ export default function Register({ history }) {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-
-  const onSubmitFunction = async (data) => {
-    onRegister(data);
-  };
-
+  const { onRegisterFunction } = useContext(AuthContext);
   return (
     <AnimatedPage>
       <Main>
@@ -49,7 +45,7 @@ export default function Register({ history }) {
             <h1>Kenzie Hub</h1>
             <button onClick={() => history.push("/")}>Voltar</button>
           </DivTitle>
-          <Form height="100%" onSubmit={handleSubmit(onSubmitFunction)}>
+          <Form height="100%" onSubmit={handleSubmit(onRegisterFunction)}>
             <h2>Crie sua conta</h2>
             <p>Rapido e grátis, vamos nessa</p>
             <DivInput>
@@ -63,11 +59,11 @@ export default function Register({ history }) {
                   placeholder="Digite aqui seu nome"
                   {...register("name")}
                 />
-                {errors.name ? (
+                {errors.name && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>
@@ -81,11 +77,11 @@ export default function Register({ history }) {
                   placeholder="Digite aqui seu email"
                   {...register("email")}
                 />
-                {errors.email ? (
+                {errors.email && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>
@@ -99,11 +95,11 @@ export default function Register({ history }) {
                   placeholder="Digite aqui sua senha"
                   {...register("password")}
                 />
-                {errors.password ? (
+                {errors.password && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>
@@ -117,11 +113,11 @@ export default function Register({ history }) {
                   placeholder="Digite novamente sua senha"
                   {...register("confirmPassword")}
                 />
-                {errors.confirmPassword ? (
+                {errors.confirmPassword && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>
@@ -135,11 +131,11 @@ export default function Register({ history }) {
                   placeholder="Fale sobre você"
                   {...register("bio")}
                 />
-                {errors.bio ? (
+                {errors.bio && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>
@@ -153,11 +149,11 @@ export default function Register({ history }) {
                   placeholder="Opção de contato"
                   {...register("contact")}
                 />
-                {errors.contact ? (
+                {errors.contact && (
                   <button>
                     <FiAlertOctagon />
                   </button>
-                ) : null}
+                )}
               </div>
             </DivInput>
             <DivInput>

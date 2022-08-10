@@ -1,17 +1,19 @@
 import Form from "../../components/Form";
 import DivInput from "../../components/DivInput";
 import ButtonPrimary from "../../components/ButtonPrimary";
-import A from "../../components/A";
 import { FiAlertOctagon } from "react-icons/fi";
+import A from "../../components/A";
 import Container from "../../components/Container";
 import { useForm } from "react-hook-form";
-import onLogin from "../../requisições/Login";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
 import AnimatedPage from "../../components/AnimatePage";
-
+import { useContext } from "react";
+import { AuthContext } from "../../components/contexts/AuthContext";
 export default function Login({ history }) {
+  const user = localStorage.getItem("@kenzieHub:token");
+  user && history.push("/home");
+
   const formSchema = yup.object().shape({
     email: yup
       .string()
@@ -26,22 +28,7 @@ export default function Login({ history }) {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-
-  const onSubmitFunction = async (data) => {
-    const response = await onLogin(data);
-    if (response.data.token) {
-      localStorage.setItem("@kenzieHub:token", response.data.token);
-      localStorage.setItem("@kenzieHub:id", response.data.user.id);
-      history.push("/home");
-      toast.success("Login realizado com sucesso!", {
-        position: "top-right",
-        autoClose: 400,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  };
+  const { onSubmitFunction } = useContext(AuthContext);
   return (
     <AnimatedPage>
       <Container height="100vh">
@@ -59,11 +46,11 @@ export default function Login({ history }) {
                 placeholder="exemplo@exemplo.com.br"
                 {...register("email")}
               />
-              {errors.email ? (
+              {errors.email && (
                 <button>
                   <FiAlertOctagon />
                 </button>
-              ) : null}
+              )}
             </div>
           </DivInput>
           <DivInput>
@@ -77,11 +64,11 @@ export default function Login({ history }) {
                 placeholder="Digite sua Senha aqui"
                 {...register("password")}
               />
-              {errors.password ? (
+              {errors.password && (
                 <button>
                   <FiAlertOctagon />
                 </button>
-              ) : null}
+              )}
             </div>
           </DivInput>
           <ButtonPrimary type="submit">Entrar</ButtonPrimary>

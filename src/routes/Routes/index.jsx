@@ -5,6 +5,7 @@ import Register from "../../pages/Register";
 import Home from "../../pages/Home";
 import { useHistory } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import DivRegisterTech from "../../components/DivRegisterTech/DivRegisterTech";
 export default function Routes() {
   const history = useHistory();
   const location = useLocation();

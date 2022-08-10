@@ -1,30 +1,41 @@
+import { useState } from "react";
 import DivTitle from "../../components/DivTitle";
 import DivUser from "../../components/DivUser";
 import { DivLista, Footer, Main } from "./styles";
 import { BsTrash } from "react-icons/bs";
-import GetUser from "../../requisições/GetUser";
-import { useState } from "react";
 import AnimatedPage from "../../components/AnimatePage";
-
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../components/contexts/AuthContext";
+import DivRegisterTech from "../../components/DivRegisterTech/DivRegisterTech";
+import DivDeleteTech from "../../components/DivDeleteTech/DivDeleteTech";
+import api from "../../services/api";
 export default function Home({ history }) {
-  const [user, setUser] = useState();
+  const [modal, setModal] = useState(false);
+  const { userLogin, loading } = useContext(AuthContext);
+  const [listTechs, setListTechs] = useState();
+  const [modalDelete, setModalDelete] = useState(false);
+  useEffect(() => {
+    const user = localStorage.getItem("@kenzieHub:id");
+    async function loadTechs() {
+      const { data } = await api.get(`/users/${user}`);
+      const data2 = data.techs.reverse();
+      if (data2) {
+        setListTechs(data2);
+      }
+    }
+    loadTechs();
+  }, [userLogin, modal, modalDelete]);
+
   const logout = () => {
     localStorage.removeItem("@kenzieHub:token");
     localStorage.removeItem("@kenzieHub:id");
     history.push("/");
   };
-  const userRequest = async () => {
-    const request = await GetUser();
-    const object = {
-      name: request.data.name,
-      module: request.data.course_module,
-    };
-    setUser(object);
-  };
-  if (!user) {
-    userRequest();
+  if (loading) {
+    return <div>Carregando...</div>;
   }
-  return (
+
+  return userLogin ? (
     <AnimatedPage>
       <Main>
         <DivTitle w="100%" minW="18.5rem" maxW="48.75rem" minH="4.563" p="5%">
@@ -33,94 +44,43 @@ export default function Home({ history }) {
         </DivTitle>
         <DivUser>
           <div>
-            <h2>Olá, {user ? user.name : "carregando..."}</h2>
-            <p>{user ? user.module : "carregando..."}</p>
+            <h2>Olá, {userLogin ? userLogin.name : "carregando..."}</h2>
+            <p>{userLogin ? userLogin.course_module : "carregando..."}</p>
           </div>
         </DivUser>
         <DivLista>
           <div>
             <h3>Tecnlogias</h3>
-            <button>+</button>
+            <button onClick={() => setModal(true)}>+</button>
           </div>
           <ul>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
-            <li>
-              lista de tecnologia
-              <span>
-                <p>nivel da tecnologia</p>
-                <button>
-                  <BsTrash />
-                </button>
-              </span>
-            </li>
+            {listTechs &&
+              listTechs.map((e) => (
+                <li key={e.id}>
+                  {e.title}
+                  <span>
+                    <p>{e.status}</p>
+                    <button onClick={() => setModalDelete(e.id)}>
+                      <BsTrash />
+                    </button>
+                  </span>
+                </li>
+              ))}
           </ul>
         </DivLista>
+        {modal && <DivRegisterTech setModal={setModal} />}
+        {modalDelete && (
+          <DivDeleteTech
+            setModalDelete={setModalDelete}
+            modalDelete={modalDelete}
+          />
+        )}
         <Footer>
           <h6>henriquepiresDevFullStack</h6>
         </Footer>
       </Main>
     </AnimatedPage>
+  ) : (
+    history.push("/")
   );
 }
