@@ -33,7 +33,7 @@ export default function DivRegisterTech({ setModal }) {
         <form onSubmit={handleSubmit(registerTech)}>
           <DivInput>
             <label htmlFor="inputTech">
-              Nome da tecnologia <span>{errors.tech?.message}</span>
+              Nome da tecnologia <span>{errors.title?.message}</span>
             </label>
             <div>
               <input
