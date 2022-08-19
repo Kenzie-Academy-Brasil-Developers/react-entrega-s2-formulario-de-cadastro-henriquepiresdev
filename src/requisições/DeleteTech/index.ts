@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import api from "../../services/api";
-export default function deleteTech(data) {
+export default function deleteTech(data:string | null | undefined) {
   const response = api.delete(`/users/techs/${data}`).catch(() => {
     toast.error("Um erro ocorreu", {
       autoClose: 2000,

@@ -10,7 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AnimatedPage from "../../components/AnimatePage";
 import { useContext } from "react";
 import { AuthContext } from "../../components/contexts/AuthContext";
-export default function Login({ history }) {
+import { useHistory } from "react-router-dom";
+
+export default function Login() {
+  const history= useHistory()
   const user = localStorage.getItem("@kenzieHub:token");
   user && history.push("/home");
 
@@ -37,7 +40,7 @@ export default function Login({ history }) {
           <h2>Login</h2>
           <DivInput>
             <label htmlFor="email">
-              Email<span>{errors.email?.message}</span>
+              Email<span>{errors.email && 'Digite um email válido'}</span>
             </label>
             <div>
               <input
@@ -55,7 +58,7 @@ export default function Login({ history }) {
           </DivInput>
           <DivInput>
             <label htmlFor="password">
-              Senha<span>{errors.password?.message}</span>
+              Senha<span>{errors.password && 'Digite uma senha válida'}</span>
             </label>
             <div>
               <input

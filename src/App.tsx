@@ -3,11 +3,13 @@ import GlobalStyle from "./styles/global";
 import Routes from "./routes/Routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthProvider from "./components/contexts/AuthContext";
+import AuthProvider from './components/contexts/AuthContext'
+import TechProvider from "./components/contexts/TechsContext";
 function App() {
   return (
     <div className="App">
       <AuthProvider>
+        <TechProvider>
         <GlobalStyle />
         <Routes />
         <ToastContainer
@@ -20,6 +22,8 @@ function App() {
           draggable
           toastStyle={{ backgroundColor: "black", color: "white" }}
         />
+        </TechProvider>
+
       </AuthProvider>
     </div>
   );

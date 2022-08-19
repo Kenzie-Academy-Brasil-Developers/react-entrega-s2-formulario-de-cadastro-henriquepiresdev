@@ -11,7 +11,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AnimatedPage from "../../components/AnimatePage";
 import { useContext } from "react";
 import { AuthContext } from "../../components/contexts/AuthContext";
-export default function Register({ history }) {
+import { useHistory } from "react-router-dom";
+
+export default function Register() {
+  const history = useHistory()
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome obrigatório"),
     email: yup.string().required("Email obrigatório").email("Email inválido"),
@@ -41,7 +44,7 @@ export default function Register({ history }) {
     <AnimatedPage>
       <Main>
         <Container height="100%">
-          <DivTitle w="70%" minW="18.5rem" maxW="23.125rem" minH="8.188rem">
+          <DivTitle w="70%" minW="18.5rem" maxW="23.125rem" >
             <h1>Kenzie Hub</h1>
             <button onClick={() => history.push("/")}>Voltar</button>
           </DivTitle>
@@ -50,7 +53,7 @@ export default function Register({ history }) {
             <p>Rapido e grátis, vamos nessa</p>
             <DivInput>
               <label htmlFor="name">
-                Nome <span>{errors.name?.message}</span>
+                Nome <span>{errors.name && 'Nome obrigatório'}</span>
               </label>
               <div>
                 <input
@@ -68,7 +71,7 @@ export default function Register({ history }) {
             </DivInput>
             <DivInput>
               <label htmlFor="email">
-                Email<span>{errors.email?.message}</span>
+                Email<span>{errors.email&& 'Email Obrigatório'}</span>
               </label>
               <div>
                 <input
@@ -86,7 +89,7 @@ export default function Register({ history }) {
             </DivInput>
             <DivInput>
               <label htmlFor="password">
-                Senha<span>{errors.password?.message}</span>
+                Senha<span>{errors.password && 'Digite uma senha forte ex:Name13%ö$'}</span>
               </label>
               <div>
                 <input
@@ -104,7 +107,7 @@ export default function Register({ history }) {
             </DivInput>
             <DivInput>
               <label htmlFor="confirmPassword">
-                Confirmar Senha<span>{errors.confirmPassword?.message}</span>
+                Confirmar Senha<span>{errors.confirmPassword && 'As senhas devem ser Iguais'}</span>
               </label>
               <div>
                 <input
@@ -122,7 +125,7 @@ export default function Register({ history }) {
             </DivInput>
             <DivInput>
               <label htmlFor="bio">
-                Bio<span>{errors.bio?.message}</span>
+                Bio<span>{errors.bio&& 'Bio obrigatória'}</span>
               </label>
               <div>
                 <input
@@ -140,7 +143,7 @@ export default function Register({ history }) {
             </DivInput>
             <DivInput>
               <label htmlFor="contact">
-                Contato<span>{errors.contact?.message}</span>
+                Contato<span>{errors.contact && 'Digite um metodo para contato'}</span>
               </label>
               <div>
                 <input

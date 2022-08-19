@@ -1,6 +1,8 @@
 import styled from "styled-components";
-
-const Container = styled.div`
+interface IStyledProps{
+  height: string;
+}
+const Container = styled.div<IStyledProps>`
   width: 100%;
   height: ${(props) => `${props.height}`};
   background-color: var(--Grey-4);

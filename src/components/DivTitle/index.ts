@@ -1,6 +1,12 @@
 import styled from "styled-components";
-
-const DivTitle = styled.div`
+interface IStyledProps{
+  w?: string;
+  minW?: string;
+  maxW?: string;
+  height?: string;
+  p?:string;
+}
+const DivTitle = styled.div<IStyledProps>`
   width: ${(props) => `${props.w}`};
   min-width: ${(props) => `${props.minW}`};
   height: 75px;

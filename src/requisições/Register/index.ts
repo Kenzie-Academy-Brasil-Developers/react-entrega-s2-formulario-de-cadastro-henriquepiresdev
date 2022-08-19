@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import api from "../../services/api";
-export default async function onRegister(data) {
+import { IRegisterData } from "../../components/contexts/AuthContext";
+export default async function onRegister(data:IRegisterData) {
   const response = api
     .post("/users", data)
     .then((response) => {
