@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import {  useContext } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import DivInput from "../DivInput";
@@ -9,12 +9,7 @@ import { Modal, ContainerModal } from "./styles";
 import createTech from "../../requisições/CreateTech";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TechContext } from "../contexts/TechsContext";
-
-interface ICreateTech{
-    id?: string;
-    title: string;
-    status:string;
-}
+import { toast } from "react-toastify";
 export default function DivRegisterTech() {
   const { setModal } = useContext(TechContext);
   const formSchema = yup.object().shape({
@@ -28,11 +23,24 @@ export default function DivRegisterTech() {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-  const registerTech:any= async (data:ICreateTech) => {
-    const response= await createTech(data);
-  
-    return response?.data;
-  };
+
+  function registerTech(data: object): void {
+    createTech(data)
+      .then((response) => {
+        setModal(false);
+        return response;
+      })
+      .catch(() => {
+        toast.error("Technologia ja registrada", {
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  }
   return (
     <ContainerModal>
       <Modal>
@@ -43,7 +51,8 @@ export default function DivRegisterTech() {
         <form onSubmit={handleSubmit(registerTech)}>
           <DivInput>
             <label htmlFor="inputTech">
-              Nome da tecnologia <span>{errors.title&& 'Tecnologia obrigatória'}</span>
+              Nome da tecnologia{" "}
+              <span>{errors.title && "Tecnologia obrigatória"}</span>
             </label>
             <div>
               <input
@@ -56,7 +65,7 @@ export default function DivRegisterTech() {
           </DivInput>
           <DivInput>
             <label htmlFor="optionTech">Selecionar Status</label>
-            <select  id="optionTech" {...register("status")}>
+            <select id="optionTech" {...register("status")}>
               <option value="Iniciante">Iniciante</option>
               <option value="Intermediário">Intermediário</option>
               <option value="Avançado">Avançado</option>

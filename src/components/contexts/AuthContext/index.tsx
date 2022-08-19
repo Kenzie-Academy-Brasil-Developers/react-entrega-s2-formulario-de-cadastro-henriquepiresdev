@@ -58,7 +58,6 @@ export default function AuthProvider({ children }:IAuthProviderProps) {
           if (api.defaults.headers != null) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           }
-
           const { data } = await api.get("/profile");
           setUserLogin(data);
         } catch (error) {
